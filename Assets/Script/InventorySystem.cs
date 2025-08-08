@@ -2,10 +2,12 @@ using UnityEngine;
 using System.Collections.Generic;
 public class InventorySystem : MonoBehaviour
 {
-    int maxItemInStack = 64;
+    public Item_Main_SO testwood;
+    // start at 0
+    public int maxInventorySlot;
     // Dictionnary containing object with a number of those, each of the object have an id inside the inventory
     // Key : Id, Pair : object, number
-    Dictionary<int, InventoryItem<string, int>> inventory = new Dictionary<int, InventoryItem<string, int>>();
+    Dictionary<int, InventoryItem<Item_Main_SO, int>> inventory = new Dictionary<int, InventoryItem<Item_Main_SO, int>>();
 
 
     // TODO : case : 0, wood 54; 1, wood 32, new entry wood 20
@@ -14,12 +16,22 @@ public class InventorySystem : MonoBehaviour
 
     void Start()
     {
+
+        AddItem(testwood, 120);
+
+        /*
+        Debug.Log("the inventory at start contain : " + inventory[0].Item + " " + inventory[0].Quantity);
+        AddItem(testwood, 36);
+        Debug.Log("the inventory now contain : " + inventory[0].Item + " " + inventory[0].Quantity);
+        Debug.Log("the secondary slot in inventory now contain : " + inventory[1].Item + " " + inventory[1].Quantity);
+        */
+        /*
         AddItem("Wood", 60);
         AddItem("Steel", 14);
         AddItem("Wood", 14);
-        Debug.Log(inventory[0].Item + " " + inventory[0].Quantity);
-        Debug.Log(inventory[1].Item + " " + inventory[1].Quantity);
+
         Debug.Log(inventory[2].Item + " " + inventory[2].Quantity);
+        */
     }
 
     /// <summary>
@@ -29,29 +41,62 @@ public class InventorySystem : MonoBehaviour
     /// <param name="item"></param>
     /// <param name="number"></param>
     /// <returns></returns>
-    public void AddItem(string item, int number)
+    public void AddItem(Item_Main_SO item, int number)
     {
         // go through whole inventory
-        foreach(var (key, value) in inventory)
+        foreach (var (key, value) in inventory)
         {
-            // If picked up item is inside the inventory
-            if(value.Item == item)
+            // If picked up item is inside the inventory and not max stack
+            if (value.Item == item && value.Quantity != value.Item.maxItemInStack)
             {
                 int total = value.Quantity + number;
                 // Add to the current stack
-                value.Quantity = Mathf.Clamp(total, 0, maxItemInStack);
-                // If go past the limit of stack 
-                if(total > maxItemInStack)
+                value.Quantity = Mathf.Clamp(total, 0, item.maxItemInStack);
+                UIManager.instance.AddItemToTheUI(item, value.Quantity, key);
+                Debug.Log("key value : " + key);
+                if (CheckIfSlotAvailable())
                 {
-                    // Update number and create a new stack of the item
-                    number = total - maxItemInStack;
-                    inventory.Add(inventory.Count, new InventoryItem<string, int>(item, number));
-                    return;
+                    // If go past the limit of stack 
+                    if (total > item.maxItemInStack)
+                    {
+                        // Update number and create a new stack of the item
+                        number = total - item.maxItemInStack;
+
+                        inventory.Add(inventory.Count, new InventoryItem<Item_Main_SO, int>(item, number));
+                        UIManager.instance.AddItemToTheUI(item, number, inventory.Count - 1);
+                    }
                 }
+                return;
             }
         }
         // If new entry
-        inventory.Add(inventory.Count, new InventoryItem<string, int>(item, number));
+        if (CheckIfSlotAvailable())
+        {
+            if (number > item.maxItemInStack)
+            {
+                int numberOfStack = Mathf.CeilToInt((float)number / (float)item.maxItemInStack);
+
+                for (int i = 0; i < numberOfStack; i++)
+                {
+                    int quantity = Mathf.Clamp(number, 0, 64);
+                    number -= quantity;
+                    inventory.Add(inventory.Count, new InventoryItem<Item_Main_SO, int>(item, quantity));
+                    UIManager.instance.AddItemToTheUI(item, quantity, inventory.Count - 1);
+                }
+            }
+            else
+            {
+                inventory.Add(inventory.Count, new InventoryItem<Item_Main_SO, int>(item, number));
+                UIManager.instance.AddItemToTheUI(item, number, inventory.Count - 1);
+            }
+        }
+
+
+    }
+
+    bool CheckIfSlotAvailable()
+    {
+        return (inventory.Count < maxInventorySlot) ? true : false;
     }
 
     /// <summary>
@@ -61,7 +106,7 @@ public class InventorySystem : MonoBehaviour
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="U"></typeparam>
-    public class InventoryItem<T,U>
+    public class InventoryItem<T, U>
     {
         // Empty Constructor
         public InventoryItem() { }

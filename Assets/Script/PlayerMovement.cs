@@ -4,7 +4,6 @@ using UnityEngine.AI;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] NavMeshAgent player;
-    [SerializeField] Camera cam;
     [SerializeField] Vector3 pointToMoveTo;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
