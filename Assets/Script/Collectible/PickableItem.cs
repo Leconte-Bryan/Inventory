@@ -8,6 +8,15 @@ public class PickableItem : Collectible
     {
         target.GetComponent<InventorySystem>().AddItem(item, quantity);
         Debug.Log("this player got : " + item.itemName + " in this quantity : " + quantity);
-        Destroy(gameObject);
+        if (CheckIfEmpty())
+        {
+            Destroy(this);
+        }
     }
+
+    bool CheckIfEmpty()
+    {
+        return quantity == 0 ? true : false;
+    }
+
 }

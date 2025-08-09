@@ -26,6 +26,10 @@ public class UIManager : MonoBehaviour
         {
             Destroy(this);
         }
+        for(int i = 0; i < inventorySlots.Count; i++)
+        {
+            inventorySlots[i].id = i;
+        }
     }
 
     public void DisplayInventory()
