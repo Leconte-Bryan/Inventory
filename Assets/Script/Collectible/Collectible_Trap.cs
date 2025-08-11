@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Collectible_Trap : Collectible
+public class Collectible_Trap : Interactable
 {
     [SerializeField] int damageValue = 5;
     public override void PickUpAction(GameObject target)

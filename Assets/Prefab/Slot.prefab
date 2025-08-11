@@ -143,11 +143,11 @@ MonoBehaviour:
       - m_Target: {fileID: 2833307727253794343}
         m_TargetAssemblyTypeName: Slot, Assembly-CSharp
         m_MethodName: UseItem
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 20
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 6674557898757055802}
   - component: {fileID: 1664150297902734487}
   - component: {fileID: 2735981735505678740}
+  - component: {fileID: 5451867999179053632}
   m_Layer: 5
   m_Name: item_img
   m_TagString: Untagged
@@ -363,3 +364,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &5451867999179053632
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6862524590131786591}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

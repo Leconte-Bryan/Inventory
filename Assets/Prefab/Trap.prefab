@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7994605090725010573}
   - component: {fileID: 4929407643265176097}
   - component: {fileID: 513356775160931726}
+  - component: {fileID: 7319874041113148873}
   m_Layer: 0
   m_Name: Trap
   m_TagString: Untagged
@@ -142,5 +143,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a39f3bd24e56664eb131af4f6a40f0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemType: 1
   affectOnlyPlayer: 0
+  interactionSound: {fileID: 8300000, guid: 6da7cedc99854d14584535082b3e4d67, type: 3}
   damageValue: 5
+--- !u!54 &7319874041113148873
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2515668734974604177}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 94
+  m_CollisionDetection: 0

@@ -1,16 +1,20 @@
 using UnityEngine;
 
-public class PickableItem : Collectible
+public class PickableItem : Interactable
 {
-    [SerializeField] Item_Main_SO item;
-    [SerializeField] int quantity;
+    public Item_Main_SO item;
+    public int quantity;
     public override void PickUpAction(GameObject target)
     {
-        target.GetComponent<InventorySystem>().AddItem(item, quantity);
         Debug.Log("this player got : " + item.itemName + " in this quantity : " + quantity);
+    }
+
+    public void GetTheRest(int rest)
+    {
+        quantity = rest;
         if (CheckIfEmpty())
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 
