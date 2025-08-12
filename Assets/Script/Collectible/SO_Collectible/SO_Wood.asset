@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idx: 0
   itemName: Wood
+  DropModel: {fileID: 7638369475668358308, guid: bcfb9a3181973304c951aece86dccf3d, type: 3}
   sprite: {fileID: 21300000, guid: 197fa55794eb788499396465ef986067, type: 3}
   maxItemInStack: 64

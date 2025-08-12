@@ -5,7 +5,7 @@ public class Item_Main_SO : ScriptableObject
 {
     public int idx;
     public string itemName;
-    public GameObject DropModel;
+    public PickableItem DropModel;
     public Sprite sprite;
     public int maxItemInStack;
 }

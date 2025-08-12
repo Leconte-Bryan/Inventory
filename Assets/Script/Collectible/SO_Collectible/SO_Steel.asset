@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idx: 1
   itemName: Steel
+  DropModel: {fileID: 7638369475668358308, guid: 0870a76944f9ae1439f7354e30d67204, type: 3}
   sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   maxItemInStack: 64

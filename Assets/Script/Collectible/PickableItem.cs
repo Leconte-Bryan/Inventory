@@ -4,6 +4,15 @@ public class PickableItem : Interactable
 {
     public Item_Main_SO item;
     public int quantity;
+
+    public void Initialize(Item_Main_SO _item, int _quantity, bool _affectOnlyPlayer, ItemType _itemType)
+    {
+        item = _item;
+        quantity = _quantity;
+        affectOnlyPlayer = _affectOnlyPlayer;
+        itemType = _itemType;
+    }
+
     public override void PickUpAction(GameObject target)
     {
         Debug.Log("this player got : " + item.itemName + " in this quantity : " + quantity);
