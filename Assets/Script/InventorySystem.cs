@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class InventorySystem : MonoBehaviour
 {
     public PickableItem testwood;
+    public GameObject InventoryPanel;
     [SerializeField] List<Slot> slots;
 
 
@@ -28,6 +29,7 @@ public class InventorySystem : MonoBehaviour
         pickableItem.PlayInteractionSound();
 
     }
+
 
     /// <summary>
     /// Distribute the value into one or multiple slots
@@ -87,5 +89,15 @@ public class InventorySystem : MonoBehaviour
         */
         return futurSlot;
     }
+
+    public void OnInventoryClose()
+    {
+        foreach(Slot slot in slots)
+        {
+            slot.ResetPostDrag();
+        }
+    }
+
+
 }
 

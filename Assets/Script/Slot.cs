@@ -64,6 +64,12 @@ public void UpdateSlot(Item_Main_SO _item, int _quantity)
         quantity = 0;
     }
 
+    public void ResetPostDrag() {
+        slotImg.rectTransform.anchoredPosition = new Vector3(0, 0, 0);
+        CanvasGroup.alpha = 1;
+        isBeingDragged = false;
+    }
+
     /// <summary>
     /// Check if item inside slot
     /// </summary>
@@ -103,8 +109,11 @@ public void UpdateSlot(Item_Main_SO _item, int _quantity)
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("user dragging the slot");
-        slotImg.rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        if (isBeingDragged)
+        {
+            Debug.Log("user dragging the slot");
+            slotImg.rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        }
     }
 
 
@@ -120,28 +129,28 @@ public void UpdateSlot(Item_Main_SO _item, int _quantity)
     {
         Debug.Log("user released the slot");
         Debug.Log(slotImg.rectTransform);
-        slotImg.rectTransform.anchoredPosition = new Vector3(0, 0, 0);
-        CanvasGroup.alpha = 1;
-        isBeingDragged = false;
+
 
         GameObject draggedObject = eventData.pointerDrag;
 
 
-        if (draggedObject != null)
+        if (draggedObject != null && isBeingDragged)
         {
-            //Slot slotData = draggedObject.GetComponent<Slot>(); 
 
-        }
-
-        // TODO : different script for drag behavior only
-        // Different kind of drop : one by one; quantity / 2 (CeilToInt); all;
+            // TODO : different script for drag behavior only
+            // Different kind of drop : one by one; quantity / 2 (CeilToInt); all;
             RaycastHit hit;
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
-        {
-            Debug.Log(hit.point);
-            PickableItem ItemDropped = Instantiate(item.DropModel, hit.point, Quaternion.identity);
-            ItemDropped.Initialize(item, 1, item.DropModel.affectOnlyPlayer, item.DropModel.itemType);
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
+            {
+                Debug.Log(hit.point);
+                PickableItem ItemDropped = Instantiate(item.DropModel, hit.point, Quaternion.identity);
+                ItemDropped.Initialize(item, 1, item.DropModel.affectOnlyPlayer, item.DropModel.itemType);
+                quantity--;
+                UpdateSlot(item, quantity);
+            }
         }
+        ResetPostDrag();
+
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -151,7 +160,7 @@ public void UpdateSlot(Item_Main_SO _item, int _quantity)
         // Get the dragged object
         GameObject draggedObject = eventData.pointerDrag;
 
-        if (draggedObject != null)
+        if (draggedObject != null && isBeingDragged)
         {
             Slot slotData = draggedObject.GetComponent<Slot>();
             // Snap the dragged object to this slot
@@ -171,7 +180,6 @@ public void UpdateSlot(Item_Main_SO _item, int _quantity)
             }
         }
     }
-
     /*
     private void OnDrawGizmosSelected()
     {
