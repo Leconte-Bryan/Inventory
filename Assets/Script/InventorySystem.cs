@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System;
 
 public class InventorySystem : MonoBehaviour
 {
@@ -12,11 +13,21 @@ public class InventorySystem : MonoBehaviour
     public GameObject InventoryPanel;
     [SerializeField] Slot slotToSpawn;
     [SerializeField] List<Slot> slots;
-
+    [SerializeField] float dragOutForce = 5f; // When object is throw away
 
     private void Start()
     {
         InitializeInventorySlot();
+        GameEvents.OnObjectThrow += ThrowItem;
+    }
+
+    private void ThrowItem(Item_Main_SO item)
+    {
+            Debug.Log(gameObject.name);
+            PickableItem ItemDropped = Instantiate(item.DropModel, gameObject.transform.position, Quaternion.identity);
+            ItemDropped.Initialize(item, 1, item.DropModel.affectOnlyPlayer, item.DropModel.itemType);
+
+            ItemDropped.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * dragOutForce, ForceMode.Impulse);
     }
 
     /// <summary>

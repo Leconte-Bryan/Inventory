@@ -968,9 +968,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 86071870005683323, guid: a8382f5aeb58c664997bd7bcd330ecd8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3487178943350300708, guid: a8382f5aeb58c664997bd7bcd330ecd8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4939053245572966362, guid: a8382f5aeb58c664997bd7bcd330ecd8, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4939053245572966362, guid: a8382f5aeb58c664997bd7bcd330ecd8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6881933076030851139, guid: a8382f5aeb58c664997bd7bcd330ecd8, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6939842661237203097, guid: a8382f5aeb58c664997bd7bcd330ecd8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1012,6 +1028,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7449157262231081833, guid: a8382f5aeb58c664997bd7bcd330ecd8, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 8057145709063179248, guid: a8382f5aeb58c664997bd7bcd330ecd8, type: 3}
       propertyPath: rowCount
       value: 4
@@ -1022,12 +1042,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8057145709063179248, guid: a8382f5aeb58c664997bd7bcd330ecd8, type: 3}
       propertyPath: spacingY
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8057145709063179248, guid: a8382f5aeb58c664997bd7bcd330ecd8, type: 3}
       propertyPath: testwood
       value: 
       objectReference: {fileID: 355451440}
+    - target: {fileID: 8057145709063179248, guid: a8382f5aeb58c664997bd7bcd330ecd8, type: 3}
+      propertyPath: dragOutForce
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8057145709063179248, guid: a8382f5aeb58c664997bd7bcd330ecd8, type: 3}
       propertyPath: maxSlotsInRow
       value: 4
@@ -1088,6 +1112,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8810670069029868230, guid: 0870a76944f9ae1439f7354e30d67204, type: 3}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 443053662950382139, guid: 0870a76944f9ae1439f7354e30d67204, type: 3}
       propertyPath: m_Name
       value: Steel
@@ -1193,13 +1221,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7638369475668358308, guid: bcfb9a3181973304c951aece86dccf3d, type: 3}
-      propertyPath: rotationDir
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7638369475668358308, guid: bcfb9a3181973304c951aece86dccf3d, type: 3}
-      propertyPath: rotatingSpeed
-      value: 50
+    - target: {fileID: 4539848851731531580, guid: bcfb9a3181973304c951aece86dccf3d, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1910,6 +1934,10 @@ PrefabInstance:
     - target: {fileID: 3505699285649115090, guid: 37109e4fc87247e40a79f5f49080e86d, type: 3}
       propertyPath: m_Name
       value: Heal
+      objectReference: {fileID: 0}
+    - target: {fileID: 8576575225532072056, guid: 37109e4fc87247e40a79f5f49080e86d, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

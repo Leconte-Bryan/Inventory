@@ -11,6 +11,7 @@ public class PickableItem : Interactable
         quantity = _quantity;
         affectOnlyPlayer = _affectOnlyPlayer;
         itemType = _itemType;
+        canBeInteractedWith = false;
     }
 
     public override void PickUpAction(GameObject target)

@@ -7,7 +7,7 @@ public class Interactor : MonoBehaviour
     {
         Debug.Log("something collide : " + other.name);
         Interactable item = other.GetComponent<Interactable>();
-        if (item)
+        if (item && item.CanInteract())
         {
             Debug.Log("C'est un collectible ! ");
             if (item.affectOnlyPlayer && tag != "Player")

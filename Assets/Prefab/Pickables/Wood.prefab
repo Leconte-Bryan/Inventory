@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 3673535623164343922}
   - component: {fileID: -8810670069029868230}
   - component: {fileID: 7638369475668358308}
-  m_Layer: 0
+  - component: {fileID: 4539848851731531580}
+  m_Layer: 7
   m_Name: Wood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +160,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 94
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &7638369475668358308
 MonoBehaviour:
@@ -175,6 +176,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 2
   affectOnlyPlayer: 1
+  canBeInteractedWith: 1
+  timeForInteraction: 5
   interactionSound: {fileID: 8300000, guid: f79390995129bd44e92c1b19762e2d0d, type: 3}
   rotatingSpeed: 50
   yValue: 0
@@ -183,3 +186,24 @@ MonoBehaviour:
   amplitude: 0.5
   item: {fileID: 11400000, guid: 02599ffb3a497d44894f08394a2baf23, type: 2}
   quantity: 20
+--- !u!65 &4539848851731531580
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443053662950382139}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

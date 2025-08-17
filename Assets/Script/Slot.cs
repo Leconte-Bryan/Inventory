@@ -142,11 +142,16 @@ public void UpdateSlot(Item_Main_SO _item, int _quantity)
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
             {
+                Debug.Log("allali");
                 Debug.Log(hit.point);
-                PickableItem ItemDropped = Instantiate(item.DropModel, hit.point, Quaternion.identity);
-                ItemDropped.Initialize(item, 1, item.DropModel.affectOnlyPlayer, item.DropModel.itemType);
                 quantity--;
                 UpdateSlot(item, quantity);
+                GameEvents.OnObjectThrow?.Invoke(item);
+
+                /*
+                PickableItem ItemDropped = Instantiate(item.DropModel, gameObject.transform.forward, Quaternion.identity);
+                ItemDropped.Initialize(item, 1, item.DropModel.affectOnlyPlayer, item.DropModel.itemType);
+                */
             }
         }
         ResetPostDrag();

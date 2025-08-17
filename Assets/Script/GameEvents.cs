@@ -7,6 +7,7 @@ public class GameEvents : MonoBehaviour
     public static Action<AudioClip> OnPlaySFX;
 
     // Gameplay events
+    public static Action<Item_Main_SO> OnObjectThrow;
     public static Action OnPlayerDied;
     public static Action<int> OnScoreChanged;
 }
