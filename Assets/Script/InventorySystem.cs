@@ -1,12 +1,23 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class InventorySystem : MonoBehaviour
 {
     public PickableItem testwood;
+    [SerializeField] int nbrOfSlots;
+    [SerializeField] int maxSlotsInRow; // Nbr of element in a row
+    [SerializeField] int spacingX;
+    [SerializeField] int spacingY;
     public GameObject InventoryPanel;
+    [SerializeField] Slot slotToSpawn;
     [SerializeField] List<Slot> slots;
 
+
+    private void Start()
+    {
+        InitializeInventorySlot();
+    }
 
     /// <summary>
     /// Add item and a number in a inventory slot
@@ -92,9 +103,37 @@ public class InventorySystem : MonoBehaviour
 
     public void OnInventoryClose()
     {
-        foreach(Slot slot in slots)
+        foreach (Slot slot in slots)
         {
             slot.ResetPostDrag();
+        }
+    }
+
+
+    public void InitializeInventorySlot()
+    {
+        int slotInCurrentRow = 0;
+        if (slots.Count == 0)
+        {
+            Debug.Log("lfpaeigbnfvzropulbgn");
+            for(int i = 0; i < nbrOfSlots; i++)
+            {
+                slotInCurrentRow++;
+                if(slotInCurrentRow > maxSlotsInRow-1)
+                {
+                    slotInCurrentRow = 0;
+                    spacingX = -1500;
+                    spacingY -= 200;
+                }
+
+                Vector2 pos = new Vector2(spacingX, spacingY);
+                Slot newSlot = Instantiate(slotToSpawn, InventoryPanel.transform);
+                newSlot.GetComponent<Image>().rectTransform.anchoredPosition = pos;
+                slots.Add(newSlot);
+                spacingX += 1000;
+
+            }
+
         }
     }
 

@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] NavMeshAgent player;
-    [SerializeField] Vector3 pointToMoveTo;
     [SerializeField] InventorySystem inventory;
     [SerializeField] InputActionReference openInventory;
 
@@ -27,14 +26,15 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(2))
         {
             RaycastHit hit;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
             {
-                Debug.Log(hit.point);
+                
+                Debug.Log(hit.collider.gameObject.name);
+                player.SetDestination(hit.point);
 
-                player.destination = hit.point;
             }
         }
     }
