@@ -4,6 +4,28 @@ public class PickableItem : Interactable
 {
     public Item_Main_SO item;
     public int quantity;
+    public bool canStack = true;
+
+    /// <summary>
+    /// From the item throwed to the item on the ground
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerEnter(Collider other)
+    {
+        PickableItem otherItem = other.GetComponent<PickableItem>();
+
+        // Check if it s a pickable, same item, can stack (security, prevent to add quantity to multiple objects)
+        if (otherItem && otherItem.item == item && otherItem.canBeInteractedWith && canStack)
+        {
+            canStack = false;
+            // Check if same item
+            if (otherItem && otherItem.item == item)
+            {
+                otherItem.quantity += quantity;
+                Destroy(gameObject);
+            }
+        }
+    }
 
     public void Initialize(Item_Main_SO _item, int _quantity, bool _affectOnlyPlayer, ItemType _itemType)
     {

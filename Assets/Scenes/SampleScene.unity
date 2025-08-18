@@ -1112,10 +1112,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -8810670069029868230, guid: 0870a76944f9ae1439f7354e30d67204, type: 3}
-      propertyPath: m_Constraints
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 443053662950382139, guid: 0870a76944f9ae1439f7354e30d67204, type: 3}
       propertyPath: m_Name
       value: Steel
@@ -1159,10 +1155,6 @@ PrefabInstance:
     - target: {fileID: 2104572763790959268, guid: 0870a76944f9ae1439f7354e30d67204, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7638369475668358308, guid: 0870a76944f9ae1439f7354e30d67204, type: 3}
-      propertyPath: rotatingSpeed
-      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1220,10 +1212,6 @@ PrefabInstance:
     - target: {fileID: 2104572763790959268, guid: bcfb9a3181973304c951aece86dccf3d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4539848851731531580, guid: bcfb9a3181973304c951aece86dccf3d, type: 3}
-      propertyPath: m_ExcludeLayers.m_Bits
-      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
