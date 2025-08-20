@@ -1,0 +1,1 @@
+{"steel":{"instanceID":43370},"wood":{"instanceID":43446},"sword":{"instanceID":44996},"ingredientsList":[{"item":{"instanceID":43446},"count":1},{"item":{"instanceID":43370},"count":2}]}

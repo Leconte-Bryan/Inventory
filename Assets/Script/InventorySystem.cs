@@ -5,6 +5,7 @@ using System;
 
 public class InventorySystem : MonoBehaviour
 {
+    public List<Ingredient> ingredients = new List<Ingredient>();
     public PickableItem testwood;
     [SerializeField] int nbrOfSlots;
     [SerializeField] int maxSlotsInRow; // Nbr of element in a row
@@ -19,6 +20,14 @@ public class InventorySystem : MonoBehaviour
     {
         InitializeInventorySlot();
         GameEvents.OnObjectThrow += ThrowItem;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown("3"))
+        {
+            GetAllItem();
+        }
     }
 
     private void ThrowItem(Item_Main_SO item)
@@ -103,12 +112,6 @@ public class InventorySystem : MonoBehaviour
             }
         }
         futurSlot.AddRange(emptySlot);
-        /*
-        foreach (Slot elem in futurSlot)
-        {
-            Debug.Log(elem);
-        }
-        */
         return futurSlot;
     }
 
@@ -126,7 +129,6 @@ public class InventorySystem : MonoBehaviour
         int slotInCurrentRow = 0;
         if (slots.Count == 0)
         {
-            Debug.Log("lfpaeigbnfvzropulbgn");
             for(int i = 0; i < nbrOfSlots; i++)
             {
                 slotInCurrentRow++;
@@ -148,6 +150,48 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
+    void GetAllItem()
+    {
+        ingredients = new List<Ingredient>();
+        bool isInside = false; // Flag
+        // Check in every inventory slot
+        foreach (Slot slot in slots)
+        {
+            if (slot.IsEmpty())
+            {
+                continue;
+            }
+            Ingredient ingredientToAdd = new Ingredient(slot.item, slot.quantity);
+            // Look in every ingredient the player currently have
+            foreach (Ingredient ingredient in ingredients)
+            {
+                // Check if item in list already
+                if (slot.CompareItem(ingredient.item))
+                {
+                    ingredient.count += slot.quantity;
+                    isInside = true;
+                }
+                else
+                {
+                    isInside = false;
+                }
+            }
+            // New ingredient 
+            if (!isInside)
+            {
+                ingredients.Add(ingredientToAdd);
+                //Debug.Log("ingredientToAdd : " + ingredientToAdd.item);
+                //Debug.Log("ingredientToAdd : " + ingredientToAdd.count);
+            }
+        }
+        /*Debug.Log("ing count = " + ingredients.Count);
+        foreach(Ingredient ing in ingredients)
+        {
+            Debug.Log(ing.item);
+            Debug.Log(ing.count);
+        }
+        */
+    }
 
 }
 

@@ -1,0 +1,1 @@
+{"sword":[{"item":"wood","count":1},{"item":"steel","count":2}]}
