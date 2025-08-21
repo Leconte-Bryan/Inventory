@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 public class Crafting : MonoBehaviour
 {
     // The object AND his components
-    [SerializeField] List<Recipes> recipes;
+    [SerializeField] List<Recipes_SO> recipes;
 
     [SerializeField] Item_Main_SO steel;
     [SerializeField] Item_Main_SO wood;

@@ -2,24 +2,23 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-public class CraftingSlot : MonoBehaviour
+public class ItemRecipe : MonoBehaviour
 {
-    [SerializeField] Recipes recipe;
+    [SerializeField] Recipes_SO recipe;
     [SerializeField] GameObject slotCraft;
     [SerializeField] GameObject plusPrefab;
     [SerializeField] GameObject equalPrefab;
 
-    private void Start()
-    {
-        CreateNewSlot(recipe);
-    }
 
-    void CreateNewSlot(Recipes newRecipes)
+    /// <summary>
+    /// Display
+    /// </summary>
+    /// <param name="newRecipes"></param>
+    public void CreateNewSlot(Recipes_SO newRecipes)
     {
         recipe = newRecipes;
-
-        foreach(Transform child in transform)
+        Debug.Log(recipe);
+        foreach (Transform child in transform)
         {
             Destroy(child);
         }
@@ -29,7 +28,7 @@ public class CraftingSlot : MonoBehaviour
             GameObject newItem = Instantiate(slotCraft, transform);
             newItem.transform.GetChild(0).GetComponent<Image>().sprite = recipe.ingredients[i].item.sprite;
             newItem.transform.GetChild(1).GetComponent<TMP_Text>().text = recipe.ingredients[i].count.ToString();
-            if(i < recipe.ingredients.Length - 1)
+            if (i < recipe.ingredients.Length - 1)
             {
                 GameObject _plus = Instantiate(plusPrefab, transform);
             }
@@ -40,6 +39,4 @@ public class CraftingSlot : MonoBehaviour
         _result.transform.GetChild(0).GetComponent<Image>().sprite = recipe.output.sprite;
         _result.transform.GetChild(1).GetComponent<TMP_Text>().text = recipe.outputCount.ToString();
     }
-
-
 }

@@ -1,9 +1,12 @@
 using UnityEngine;
 
+public enum RecipeType { WEAPON, CONSOMMABLE, ARMOR, BASIC}
 [CreateAssetMenu(fileName = "Recipes", menuName = "Scriptable Objects/Recipes")]
-public class Recipes : ScriptableObject
+public class Recipes_SO : ScriptableObject
 {
     public Item_Main_SO output;
+    public string recipeName;
+    public RecipeType recipeType;
     public int outputCount;
     public Ingredient[] ingredients;
 

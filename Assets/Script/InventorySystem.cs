@@ -150,7 +150,7 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-    void GetAllItem()
+    List<Ingredient> GetAllItem()
     {
         ingredients = new List<Ingredient>();
         bool isInside = false; // Flag
@@ -184,6 +184,7 @@ public class InventorySystem : MonoBehaviour
                 //Debug.Log("ingredientToAdd : " + ingredientToAdd.count);
             }
         }
+        return ingredients;
         /*Debug.Log("ing count = " + ingredients.Count);
         foreach(Ingredient ing in ingredients)
         {
