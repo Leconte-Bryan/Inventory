@@ -1,14 +1,15 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class ItemRecipe : MonoBehaviour
+
+public class ItemRecipe : MonoBehaviour, IPointerDownHandler
 {
-    [SerializeField] Recipes_SO recipe;
+    [SerializeField] public Recipes_SO recipe;
     [SerializeField] GameObject slotCraft;
     [SerializeField] GameObject plusPrefab;
     [SerializeField] GameObject equalPrefab;
-
 
     /// <summary>
     /// Display
@@ -39,4 +40,15 @@ public class ItemRecipe : MonoBehaviour
         _result.transform.GetChild(0).GetComponent<Image>().sprite = recipe.output.sprite;
         _result.transform.GetChild(1).GetComponent<TMP_Text>().text = recipe.outputCount.ToString();
     }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        craftRecipe();
+    }
+
+    void craftRecipe()
+    {
+        GameEvents.TryCraftingItem?.Invoke(recipe);
+    }
+
 }

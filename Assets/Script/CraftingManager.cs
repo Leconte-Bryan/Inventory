@@ -15,6 +15,7 @@ public class CraftingManager : MonoBehaviour
     private void Start()
     {
         UpdateRecipeUI();
+        GameEvents.TryCraftingItem += CraftingItem;
     }
 
     public void SelectRecipeType(string type)
@@ -37,8 +38,14 @@ public class CraftingManager : MonoBehaviour
         UpdateRecipeUI();
     }
 
+    /// <summary>
+    /// Are the ingredients in the inventory ?
+    /// </summary>
+    /// <param name="recipeSo"></param>
+    /// <returns></returns>
     public bool CanCraftRecipe(Recipes_SO recipeSo)
     {
+        inventory.GetAllItem();
         int itemFound = 0;
         int itemToFind = recipeSo.ingredients.Length;
         foreach (Ingredient ingredient in recipeSo.ingredients)
@@ -53,6 +60,44 @@ public class CraftingManager : MonoBehaviour
             }
         }
         return itemFound == itemToFind ? true : false;
+    }
+
+    public void CraftingItem(Recipes_SO recipe)
+    {
+        Debug.Log("trying to craft");
+        // if cannot craft or if there is no more slot available for the craft
+        if (!CanCraftRecipe(recipe) || !inventory.FindPossiblesSlots(recipe.output))
+        {
+            return;
+        }
+        foreach(Ingredient ingredient in recipe.ingredients)
+        {
+            int itemToRemove = ingredient.count;
+            Debug.Log(ingredient.item.itemName + itemToRemove);
+            foreach(Slot slot in inventory.slots)
+            {
+                if(slot.item == ingredient.item)
+                {
+                    int originalValue = slot.quantity;
+                    int result = Mathf.Clamp(originalValue - itemToRemove, 0, slot.item.maxItemInStack);
+                    int difference = originalValue - result;
+                    Debug.Log(itemToRemove + " - " + difference);
+
+                    itemToRemove -= difference;
+
+                    slot.UpdateSlot(slot.item, Mathf.Clamp(result, 0, slot.item.maxItemInStack));
+                    Debug.Log(ingredient.item.itemName + "item to remove loop " + itemToRemove);
+
+                    if (itemToRemove <= 0)
+                    {
+                        Debug.Log("one item is done");
+                        break;
+                    }
+                }
+            }
+        }
+        inventory.AddItem(recipe.output, recipe.outputCount);
+        Debug.Log("succes");
     }
 
     public void UpdateRecipeUI()

@@ -13,7 +13,8 @@ public class InventorySystem : MonoBehaviour
     [SerializeField] int spacingY;
     public GameObject InventoryPanel;
     [SerializeField] Slot slotToSpawn;
-    [SerializeField] List<Slot> slots;
+    public List<Slot> slots;
+    [SerializeField] List<Slot> potentialSlots;
     [SerializeField] float dragOutForce = 5f; // When object is throw away
 
     private void Start()
@@ -48,19 +49,24 @@ public class InventorySystem : MonoBehaviour
     /// <param name="number"></param>
     public void AddItem(PickableItem pickableItem, int number)
     {
-        // Retrieve possible slot
-        List<Slot> possibleSlots = FindPossiblesSlots(pickableItem.item);
-        if (possibleSlots.Count == 0)
+        if (!FindPossiblesSlots(pickableItem.item))
         {
-            Debug.Log("All slots are full");
             return;
         }
         // Fill the possible slots 
-        DistributeQuantityOverSlots(possibleSlots, number, pickableItem);
+        DistributeQuantityOverSlots(potentialSlots, number, pickableItem);
         pickableItem.PlayInteractionSound();
-
     }
 
+    public void AddItem(Item_Main_SO craftedItem, int number)
+    {
+        if (!FindPossiblesSlots(craftedItem))
+        {
+            return;
+        }
+        // Fill the possible slots 
+        DistributeQuantityOverSlots(potentialSlots, number, craftedItem);
+    }
 
     /// <summary>
     /// Distribute the value into one or multiple slots
@@ -89,30 +95,47 @@ public class InventorySystem : MonoBehaviour
         pickableItem.GetTheRest(quantity);
     }
 
+
+    void DistributeQuantityOverSlots(List<Slot> possibleSlots, int quantity, Item_Main_SO craftedItem)
+    {
+        // From the one with item !full tot the empty
+        for (int i = 0; i < possibleSlots.Count; i++)
+        {
+            int currentQuantity = possibleSlots[i].quantity;
+            int maxStack = craftedItem.maxItemInStack;
+            int spaceLeft = maxStack - currentQuantity;
+            int addValue = Mathf.Min(quantity, spaceLeft); // Retrieve the value to substract
+
+            possibleSlots[i].UpdateSlot(craftedItem, currentQuantity + addValue);
+            quantity -= addValue;
+        }
+    }
+
     /// <summary>
     /// Create a list of all slot that can receive the item (empty and one having the item and not full)
     /// Priority to those with the item inside so it fill those slots earlier
     /// </summary>
     /// <param name="itemToAdd"></param>
     /// <returns></returns>
-    List<Slot> FindPossiblesSlots(Item_Main_SO itemToAdd)
+    public bool FindPossiblesSlots(Item_Main_SO itemToAdd)
     {
+        potentialSlots = new List<Slot>();
         List<Slot> emptySlot = new List<Slot>();
-        List<Slot> futurSlot = new List<Slot>();
         for (int i = 0; i < slots.Count; i++)
         {
             // Contain the object
             if (slots[i].item == itemToAdd && !slots[i].IsFull())
             {
-                futurSlot.Add(slots[i]);
+                potentialSlots.Add(slots[i]);
             }
             else if (slots[i].IsEmpty())
             {
                 emptySlot.Add(slots[i]);
             }
         }
-        futurSlot.AddRange(emptySlot);
-        return futurSlot;
+        potentialSlots.AddRange(emptySlot);
+        Debug.Log("potential count avaialable "  + potentialSlots.Count);
+        return potentialSlots.Count > 0 ? true : false;
     }
 
     public void OnInventoryClose()
@@ -150,7 +173,7 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-    List<Ingredient> GetAllItem()
+    public List<Ingredient> GetAllItem()
     {
         ingredients = new List<Ingredient>();
         bool isInside = false; // Flag
@@ -193,6 +216,5 @@ public class InventorySystem : MonoBehaviour
         }
         */
     }
-
 }
 

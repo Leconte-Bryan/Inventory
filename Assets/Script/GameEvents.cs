@@ -8,6 +8,7 @@ public class GameEvents : MonoBehaviour
 
     // Gameplay events
     public static Action<Item_Main_SO> OnObjectThrow;
+    public static Action<Recipes_SO> TryCraftingItem;
     public static Action OnPlayerDied;
     public static Action<int> OnScoreChanged;
 }
