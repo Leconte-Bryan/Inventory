@@ -34,7 +34,6 @@ public class PlayerMovement : MonoBehaviour
                 
                 Debug.Log(hit.collider.gameObject.name);
                 player.SetDestination(hit.point);
-
             }
         }
     }
