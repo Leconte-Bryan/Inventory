@@ -10,28 +10,29 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IDragHandler, IBeginDra
     public TMP_Text quantityTxt;
     public Item_Main_SO item;
     public int quantity;
-    private Canvas canvas;
-    private CanvasGroup CanvasGroup;
-    private bool isBeingDragged = false;
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private bool isBeingDragged = false;
+    [SerializeField] Image slotIcone;
     private void Start()
     {
         ClearSlot();
         canvas = GetComponentInParent<Canvas>();
-        CanvasGroup = slotImg.GetComponent<CanvasGroup>();
     }
 
-/// <summary>
-/// Update slot data and UI
-/// </summary>
-/// <param name="_item"></param>
-/// <param name="_quantity"></param>
-public void UpdateSlot(Item_Main_SO _item, int _quantity)
+    /// <summary>
+    /// Update slot data and UI
+    /// </summary>
+    /// <param name="_item"></param>
+    /// <param name="_quantity"></param>
+    public void UpdateSlot(Item_Main_SO _item, int _quantity)
     {
+        slotImg.color = new Color(1, 1, 1, 1);
         item = _item;
+        Debug.Log("sprite is : " + _item.sprite);
         slotImg.sprite = _item.sprite;
         quantityTxt.text = _quantity.ToString();
         quantity = _quantity;
-        if(quantity <= 0)
+        if (quantity <= 0)
         {
             ClearSlot();
         }
@@ -62,11 +63,13 @@ public void UpdateSlot(Item_Main_SO _item, int _quantity)
         slotImg.sprite = null;
         quantityTxt.text = "";
         quantity = 0;
+        slotImg.color = new Color(1, 1, 1, 0);
     }
 
-    public void ResetPostDrag() {
+    public void ResetPostDrag()
+    {
+        slotImg.transform.SetParent(transform);
         slotImg.rectTransform.anchoredPosition = new Vector3(0, 0, 0);
-        CanvasGroup.alpha = 1;
         isBeingDragged = false;
     }
 
@@ -94,96 +97,135 @@ public void UpdateSlot(Item_Main_SO _item, int _quantity)
 
     public bool CompareItem(Item_Main_SO _item)
     {
-        if(_item == item)
+        if (_item == item)
         {
             return true;
         }
         return false;
     }
 
+    /// <summary>
+    /// Send data from a item to the other
+    /// </summary>
+    /// <param name="craftedItem"></param>
+    /// <param name="number"></param>
+    /// <param name="destination"></param>
+    public void SwapItem(Slot origin, Slot destination)
+    {
+        Debug.Log("swapping item");
+        Item_Main_SO _item = destination.item;
+        int _quantity = destination.quantity;
+        UpdateSlot(origin.item, origin.quantity);
+        origin.UpdateSlot(_item, _quantity);
+    }
+
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("user enter the slot");
+        // Debug.Log("user enter the slot");
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         if (isBeingDragged)
         {
-            Debug.Log("user dragging the slot");
-            slotImg.rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+
+            Debug.Log("user dragging the slot" + eventData.delta);
+            //slotImg.rectTransform.anchoredPosition += eventData.delta * 5;
+
+            slotImg.transform.position = Input.mousePosition;
         }
     }
 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("user start dragging the slot");
-        CanvasGroup.alpha = 0.6f;
+        // If not item, don t drag
+        if (!item)
+        {
+            return;
+        }
+        //Debug.Log("user start dragging the slot");
         isBeingDragged = true;
+        slotImg.transform.SetParent(canvas.transform);
     }
 
 
+
+
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        Debug.Log("Item drop in this slot first : " + gameObject.name);
+        // Get the dragged object
+        GameObject draggedObject = eventData.pointerDrag;
+        Debug.Log("dragged object is : " + draggedObject);
+
+        // Si object drag existe, si le slot n'est pas le même
+        if (draggedObject != null && draggedObject.name != gameObject.name && draggedObject.GetComponent<Slot>().isBeingDragged)
+        {
+            Debug.Log("Item drop in this slot second : " + gameObject.name);
+            Slot slotData = draggedObject.GetComponent<Slot>();
+            // Snap the dragged object to this slot
+            if (!IsEmpty())
+            {
+                if (CompareItem(slotData.item))
+                {
+                    if (IsFull())
+                    {
+                        SwapItem(slotData, this);
+                    }
+                    else
+                    {
+                        int total = quantity + slotData.quantity;
+                        quantity = Mathf.Clamp(total, 0, item.maxItemInStack);
+                        int rest = total - quantity;
+                        UpdateSlot(slotData.item, quantity);
+                        slotData.UpdateSlot(slotData.item, rest);
+                    }
+                }
+                else
+                {
+                    SwapItem(slotData, this);
+                }
+                draggedObject.GetComponent<Slot>().isBeingDragged = false;
+                return;
+            }
+            if (IsEmpty())
+            {
+
+                UpdateSlot(slotData.item, slotData.quantity);
+
+                slotData.ClearSlot();
+            }
+            draggedObject.GetComponent<Slot>().isBeingDragged = false;
+        }
+    }
+
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("user released the slot");
-        Debug.Log(slotImg.rectTransform);
+        //Debug.Log("user released the slot");
+        //Debug.Log(slotImg.rectTransform);
 
 
         GameObject draggedObject = eventData.pointerDrag;
 
 
-        if (draggedObject != null && isBeingDragged)
+        if (item && draggedObject != null && isBeingDragged)
         {
-
             // TODO : different script for drag behavior only
             // Different kind of drop : one by one; quantity / 2 (CeilToInt); all;
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
             {
-                Debug.Log("allali");
-                Debug.Log(hit.point);
+                //Debug.Log(hit.point);
                 quantity--;
                 UpdateSlot(item, quantity);
                 GameEvents.OnObjectThrow?.Invoke(item);
-
-                /*
-                PickableItem ItemDropped = Instantiate(item.DropModel, gameObject.transform.forward, Quaternion.identity);
-                ItemDropped.Initialize(item, 1, item.DropModel.affectOnlyPlayer, item.DropModel.itemType);
-                */
             }
         }
         ResetPostDrag();
 
-    }
-
-    public void OnDrop(PointerEventData eventData)
-    {
-        Debug.Log("Item Dropped on Slot");
-
-        // Get the dragged object
-        GameObject draggedObject = eventData.pointerDrag;
-
-        if (draggedObject != null && isBeingDragged)
-        {
-            Slot slotData = draggedObject.GetComponent<Slot>();
-            // Snap the dragged object to this slot
-            if (!IsFull() && CompareItem(slotData.item)){
-                int total = quantity + slotData.quantity;
-                quantity = Mathf.Clamp(total, 0, item.maxItemInStack);
-                int rest = total - quantity;
-                UpdateSlot(slotData.item, quantity);
-                slotData.UpdateSlot(slotData.item, rest);
-                return;
-
-            }
-            if (IsEmpty())
-            {
-                UpdateSlot(slotData.item, slotData.quantity);
-                slotData.ClearSlot();
-            }
-        }
     }
     /*
     private void OnDrawGizmosSelected()

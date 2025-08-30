@@ -12,6 +12,7 @@ public class InventorySystem : MonoBehaviour
     [SerializeField] int spacingX;
     [SerializeField] int spacingY;
     public GameObject InventoryPanel;
+    public GameObject parentInventoryContener;
     [SerializeField] Slot slotToSpawn;
     public List<Slot> slots;
     [SerializeField] List<Slot> potentialSlots;
@@ -33,7 +34,6 @@ public class InventorySystem : MonoBehaviour
 
     private void ThrowItem(Item_Main_SO item)
     {
-            Debug.Log(gameObject.name);
             PickableItem ItemDropped = Instantiate(item.DropModel, gameObject.transform.position, Quaternion.identity);
             ItemDropped.Initialize(item, 1, item.DropModel.affectOnlyPlayer, item.DropModel.itemType);
 
@@ -111,6 +111,7 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// Create a list of all slot that can receive the item (empty and one having the item and not full)
     /// Priority to those with the item inside so it fill those slots earlier
@@ -146,7 +147,10 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-
+    /*
+    /// <summary>
+    /// Without grid layout
+    /// </summary>
     public void InitializeInventorySlot()
     {
         int slotInCurrentRow = 0;
@@ -172,6 +176,24 @@ public class InventorySystem : MonoBehaviour
 
         }
     }
+    */
+
+
+    public void InitializeInventorySlot()
+    {
+        if (slots.Count == 0)
+        {
+            for (int i = 0; i < nbrOfSlots; i++)
+            {
+                Slot newSlot = Instantiate(slotToSpawn, InventoryPanel.transform);
+                newSlot.name = newSlot.name + i.ToString();
+                slots.Add(newSlot);
+               
+            }
+        }
+    }
+
+
 
     public List<Ingredient> GetAllItem()
     {

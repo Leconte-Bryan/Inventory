@@ -11,11 +11,13 @@ public class CraftingManager : MonoBehaviour
     [SerializeField] GameObject recipePrefab;
     [SerializeField] Transform recipeParent;
     [SerializeField] InventorySystem inventory;
+    [SerializeField] GameObject buttonOpenCraftingPanel;
 
     private void Start()
     {
         UpdateRecipeUI();
         GameEvents.TryCraftingItem += CraftingItem;
+        GameEvents.OpenCraftingPanel += UpdateRecipeUI;
     }
 
     public void SelectRecipeType(string type)

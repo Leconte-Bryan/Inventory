@@ -5,7 +5,7 @@ public class Interactor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("something collide : " + other.name);
+        //Debug.Log("something collide : " + other.name);
         Interactable item = other.GetComponent<Interactable>();
         if (item && item.CanInteract())
         {

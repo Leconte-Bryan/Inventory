@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OpeningInventory(InputAction.CallbackContext obj)
     {
-        inventory.InventoryPanel.SetActive(!inventory.InventoryPanel.activeSelf);
+        inventory.parentInventoryContener.SetActive(!inventory.parentInventoryContener.activeSelf);
         inventory.OnInventoryClose();
     }
 
